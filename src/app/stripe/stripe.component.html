@@ -1,9 +1,48 @@
 <div class="payment-box">
-  
     <div id="card"></div>
     <br>
-    
    <button id="button">Pagar</button>
-   <div id="card-errors" role="alert" ></div>
-
+   <div id="card-errors" role="alert"></div>
 </div>
+
+
+<div class="cart-container">
+    <div class="cart-left">
+      <h3>Producto</h3>
+      <div class="product-item">
+        <div class="product-image">
+          <img src="https://via.placeholder.com/100" alt="Producto">
+        </div>
+        <div class="product-details">
+          <a href="#" class="product-name">Web Design</a>
+          <p class="product-price">$100.00</p>
+          <a href="#" class="remove-item">Eliminar artículo</a>
+        </div>
+        <div class="product-total">
+          <p>$100.00</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cart-right">
+      <h3>Totales del Carrito</h3>
+      <div class="cart-summary">
+        <p>Añade un cupón</p>
+        <div class="coupon">
+          <input type="text" placeholder="Código de cupón">
+        </div>
+        <div class="summary-item">
+          <p>Subtotal</p>
+          <p>$100.00</p>
+        </div>
+        <div class="summary-total">
+          <p>Total</p>
+          <p>$100.00</p>
+        </div>
+      </div>
+      <!-- Contenedor de PayPal -->
+      <div id="paypal-button-container"></div>
+    </div>
+</div>
+
+
