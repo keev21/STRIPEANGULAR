@@ -18,22 +18,24 @@ export class StripeComponent implements OnInit, AfterViewInit {
   ) { }
 
   async ngOnInit() {
-    // Inicializar Stripe
     this.stripe = await loadStripe('pk_test_51QEvYxHvRGf2ixKsvxbp4SIQym1nWVYe5JzuWuck0Sp0LtkYd7Ntt6qcnCwaCr6GIlq2dM1VAg0G512QEh1u8azJ00Y8eML9zz');
-    console.log(this.stripe);
 
     const elements = this.stripe.elements();
-    const card = elements.create('card');
-    card.mount('#card');
-
-    card.on('change', (event) => {
-      const displayError = document.getElementById('card-errors');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-      } else {
-        displayError.textContent = '';
-      }
-    });
+    
+    // Crear campos individuales para número de tarjeta, expiración y CVC
+    const cardNumber = elements.create('cardNumber');
+    cardNumber.mount('#card-number');
+    
+    const cardExpiry = elements.create('cardExpiry');
+    cardExpiry.mount('#card-expiry');
+    
+    const cardCvc = elements.create('cardCvc');
+    cardCvc.mount('#card-cvc');
+    
+    // Manejar errores
+    cardNumber.on('change', this.handleCardError);
+    cardExpiry.on('change', this.handleCardError);
+    cardCvc.on('change', this.handleCardError);
 
     const button = document.getElementById('button');
     button.addEventListener('click', async (event) => {
@@ -45,8 +47,7 @@ export class StripeComponent implements OnInit, AfterViewInit {
       };
 
       try {
-        const result = await this.stripe.createSource(card, ownerInfo);
-        console.log(result);
+        const result = await this.stripe.createSource(cardNumber, ownerInfo);
         const obj = {
           resources: result.source,
           email: 'k@g.com'
@@ -58,6 +59,11 @@ export class StripeComponent implements OnInit, AfterViewInit {
         console.warn(e.message);
       }
     });
+  }
+
+  private handleCardError(event) {
+    const displayError = document.getElementById('card-errors');
+    displayError.textContent = event.error ? event.error.message : '';
   }
 
   ngAfterViewInit(): void {
